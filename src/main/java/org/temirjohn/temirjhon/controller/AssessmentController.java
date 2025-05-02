@@ -54,9 +54,6 @@ public class AssessmentController {
             @PathVariable Long courseId,
             @RequestBody AssessmentRequest request) {
 
-        System.out.println("🎯 Получен POST-запрос на добавление оценки");
-        System.out.println("userId: " + userId + ", courseId: " + courseId);
-        System.out.println("marks: " + request.getMarks());
 
         User user = userService.getUserById(userId);
         Course course = courseService.getCourseById(courseId);
