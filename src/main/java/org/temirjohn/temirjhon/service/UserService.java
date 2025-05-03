@@ -40,7 +40,7 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
     
-    public User authenticateUser(String email, String password) {
+    public User authenticateUser(String email,  String password) {
         return userRepository.findByEmailAndPassword(email, password);
     }
 

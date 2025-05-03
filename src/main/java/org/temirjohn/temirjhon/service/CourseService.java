@@ -40,7 +40,7 @@ public Course createCourse(Course course) {
         return null;
     }
 
-public void deleteCourse(Long id) {
-    courseRepository.deleteById(id);
-}
+    public void deleteCourse(Long id) {
+        courseRepository.deleteById(id);
+    }
 }

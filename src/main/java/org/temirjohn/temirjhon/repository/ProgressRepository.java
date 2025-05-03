@@ -9,4 +9,5 @@ import org.temirjohn.temirjhon.entity.User;
 public interface ProgressRepository extends JpaRepository<Progress, Long> {
 
 	Progress findByUserAndCourse(User user, Course course);
+	void deleteByCourseId(Long courseId);
 }

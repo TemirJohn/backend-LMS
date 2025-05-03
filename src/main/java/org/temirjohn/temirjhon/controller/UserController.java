@@ -14,6 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
+@CrossOrigin("http://localhost:3000")
 public class UserController {
 
     @Autowired
@@ -31,6 +32,7 @@ public class UserController {
 
     @PostMapping("/add")
     public User createUser(@RequestBody User user) {
+        user.setRole("ROLE_USER");
         return userService.createUser(user);
     }
 
@@ -47,6 +49,7 @@ public class UserController {
     public User getUserByEmail(@RequestParam String email) {
         return userService.getUserByEmail(email);
     }
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> credentials) {
         String email = credentials.get("email");
@@ -60,7 +63,7 @@ public class UserController {
 
         String token = generateToken(user);
 
-        return ResponseEntity.ok(Collections.singletonMap("token", token));
+        return ResponseEntity.ok(Map.of("token", token, "role", user.getRole()));
     }
 
     private String generateToken(User user) {

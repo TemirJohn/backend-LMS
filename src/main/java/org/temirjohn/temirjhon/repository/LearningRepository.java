@@ -9,4 +9,6 @@ import org.temirjohn.temirjhon.entity.User;
 public interface LearningRepository extends JpaRepository<Learning, Long> {
 
 	Learning findByUserAndCourse(User user, Course course);
+
+	void deleteByCourseId(Long id);
 }
