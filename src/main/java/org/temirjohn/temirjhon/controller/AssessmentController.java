@@ -2,7 +2,6 @@ package org.temirjohn.temirjhon.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.temirjohn.temirjhon.entity.Assessment;
 import org.temirjohn.temirjhon.entity.Course;
 import org.temirjohn.temirjhon.entity.User;
+import org.temirjohn.temirjhon.request.AssessmentRequest;
 import org.temirjohn.temirjhon.service.AssessmentService;
 import org.temirjohn.temirjhon.service.CourseService;
 import org.temirjohn.temirjhon.service.UserService;
@@ -47,15 +47,23 @@ public class AssessmentController {
     	User user = userService.getUserById(userId);
     	return assessmentService.getAssessmentByUser(user);
     }
-    
+
     @PostMapping("/add/{userId}/{courseId}")
     public ResponseEntity<Assessment> addAssessmentWithMarks(
             @PathVariable Long userId,
             @PathVariable Long courseId,
-            @RequestBody Assessment assessment) {
-    	
+            @RequestBody AssessmentRequest request) {
+
+        System.out.println("🎯 Получен POST-запрос на добавление оценки");
+        System.out.println("userId: " + userId + ", courseId: " + courseId);
+        System.out.println("marks: " + request.getMarks());
+
         User user = userService.getUserById(userId);
         Course course = courseService.getCourseById(courseId);
-        return assessmentService.saveAssessment(user , course, assessment);
+
+        Assessment assessment = new Assessment();
+        assessment.setMarks(request.getMarks());
+
+        return assessmentService.saveAssessment(user, course, assessment);
     }
 }

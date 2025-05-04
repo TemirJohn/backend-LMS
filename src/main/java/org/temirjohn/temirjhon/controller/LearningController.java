@@ -1,5 +1,7 @@
 package org.temirjohn.temirjhon.controller;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.temirjohn.temirjhon.request.EnrollRequest;
 import org.temirjohn.temirjhon.entity.Course;
@@ -24,6 +26,16 @@ public class LearningController {
     @GetMapping
     public List<Learning> getEnrollments() {
         return learningService.getEnrollments();
+    }
+
+    @DeleteMapping
+    public ResponseEntity<String> unenroll(@RequestParam Long userId, @RequestParam Long courseId) {
+        try {
+            learningService.unenroll(userId, courseId);
+            return ResponseEntity.ok("Unenrolled successfully");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Enrollment not found");
+        }
     }
 
     @PostMapping

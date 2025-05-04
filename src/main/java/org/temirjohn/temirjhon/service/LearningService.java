@@ -2,6 +2,7 @@ package org.temirjohn.temirjhon.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.temirjohn.temirjhon.request.EnrollRequest;
 import org.temirjohn.temirjhon.entity.Course;
 import org.temirjohn.temirjhon.entity.Learning;
@@ -75,6 +76,15 @@ public class LearningService {
         }
 
         return "Failed to enroll";
+    }
+
+    @Transactional
+    public void unenroll(Long userId, Long courseId) {
+        if (learningRepository.existsByUserIdAndCourseId(userId, courseId)) {
+            learningRepository.deleteByUserIdAndCourseId(userId, courseId);
+        } else {
+            throw new IllegalArgumentException("Enrollment not found");
+        }
     }
 
 

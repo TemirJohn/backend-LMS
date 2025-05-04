@@ -78,8 +78,8 @@ public class QuestionController {
         Questions question = questionRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Question not found"));
 
-        Course course = courseRepository.findById(questionRequest.getCourseId())
-                .orElseThrow(() -> new IllegalArgumentException("Course not found"));
+//        Course course = courseRepository.findById(questionRequest.getCourseId())
+//                .orElseThrow(() -> new IllegalArgumentException("Course not found"));
 
         question.setQuestion(questionRequest.getQuestion());
         question.setOption1(questionRequest.getOption1());
@@ -87,7 +87,7 @@ public class QuestionController {
         question.setOption3(questionRequest.getOption3());
         question.setOption4(questionRequest.getOption4());
         question.setAnswer(questionRequest.getAnswer());
-        question.setCourse(course);
+//        question.setCourse(course);
 
         questionRepository.save(question);
         return new ResponseEntity<>(question, HttpStatus.OK);

@@ -1,16 +1,16 @@
 package org.temirjohn.temirjhon.controller;
+
 import java.util.List;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.temirjohn.temirjhon.entity.Course;
 import org.temirjohn.temirjhon.repository.CourseRepository;
 import org.temirjohn.temirjhon.repository.LearningRepository;
 import org.temirjohn.temirjhon.repository.ProgressRepository;
+import org.temirjohn.temirjhon.repository.QuestionRepository;
 import org.temirjohn.temirjhon.service.CourseService;
 
 
@@ -27,6 +27,8 @@ public class CourseController {
     private CourseRepository courseRepository;
     @Autowired
     private ProgressRepository progressRepository;
+    @Autowired
+    private QuestionRepository questionRepository;
 
     @GetMapping
     public List<Course> getAllCourses() {
@@ -53,6 +55,7 @@ public class CourseController {
     public void deleteCourse(@PathVariable Long id) {
         learningRepository.deleteByCourseId(id); // сначала очищаем зависимости
         progressRepository.deleteByCourseId(id);
+        questionRepository.deleteById(id);
         courseRepository.deleteById(id);         // потом сам курс
     }
 }

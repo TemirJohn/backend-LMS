@@ -31,24 +31,29 @@ public class AssessmentService {
     public void addMarks(Assessment assessment, int marks) {
         assessment.setMarks(marks);
     }
+
     public ResponseEntity<Assessment> saveAssessment(User user, Course course, Assessment assessment) {
         List<Assessment> existingAssessments = getAssessmentsByUserAndCourse(user, course);
+
         if (!existingAssessments.isEmpty()) {
             Assessment existingAssessment = existingAssessments.get(0);
             int newMarks = assessment.getMarks();
 
+            // ✅ если оценка выше — обновляем
             if (newMarks > existingAssessment.getMarks()) {
                 addMarks(existingAssessment, newMarks);
-                Assessment updatedAssessment = createAssessment(existingAssessment);
-                return ResponseEntity.status(HttpStatus.CREATED).body(updatedAssessment);
+                Assessment updated = createAssessment(existingAssessment);
+                return ResponseEntity.status(HttpStatus.CREATED).body(updated);
             } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+                // ✅ даже если не обновляем — возвращаем OK
+                return ResponseEntity.ok(existingAssessment);
             }
         } else {
+            // 🆕 Первая попытка
             assessment.setUser(user);
             assessment.setCourse(course);
-            Assessment savedAssessment = createAssessment(assessment);
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedAssessment);
+            Assessment saved = createAssessment(assessment);
+            return ResponseEntity.status(HttpStatus.CREATED).body(saved);
         }
     }
 }
